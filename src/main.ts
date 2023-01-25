@@ -1,26 +1,36 @@
 import puppeteer from 'puppeteer-core';
+import { isEmpty } from 'lodash';
 const ChromiumSolver = require('puppeteer-chromium-resolver');
+import { findchrome } from './findchrome';
 
 (async () => {
-  // use resolver if not found
-  const stats = await ChromiumSolver({
-    revision: '',
-    detectionPath: '',
-    folderName: '.chromium-browser-snapshots',
-    defaultHosts: [
-      'https://storage.googleapis.com',
-      'https://npm.taobao.org/mirrors',
-    ],
-    hosts: [],
-    cacheRevisions: 2,
-    retry: 3,
-    silent: true,
+  const executablePath: string = await new Promise(async resolve => {
+    const path = findchrome();
+    const execPath = path.shift();
+    if (!isEmpty(execPath)) return resolve(execPath || '');
+
+    // use resolver if not found
+    const stats = await ChromiumSolver({
+      revision: '',
+      detectionPath: '',
+      folderName: '.chromium-browser-snapshots',
+      defaultHosts: [
+        'https://storage.googleapis.com',
+        'https://npm.taobao.org/mirrors',
+      ],
+      hosts: [],
+      cacheRevisions: 2,
+      retry: 3,
+      silent: true,
+    });
+
+    resolve(stats.executablePath);
   });
 
-  console.log('chrome path:', stats.executablePath);
+  console.log('chrome path:', executablePath);
 
   const browser = await puppeteer.launch({
-    executablePath: stats.executablePath,
+    executablePath,
     headless: true,
     args: [
       '--no-sandbox',
