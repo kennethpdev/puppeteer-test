@@ -1,0 +1,25 @@
+{
+  "name": "puppeteer-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/main.js",
+  "scripts": {
+    "dev": "nodemon --exec node -r @swc-node/register src/main.ts",
+    "build": "swc src -d build -D"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer-core": "^19.6.0",
+    "puppeteer-chromium-resolver": "^19.1.0"
+  },
+  "devDependencies": {
+    "@swc-node/register": "^1.5.5",
+    "@swc/cli": "^0.1.59",
+    "@swc/core": "^1.3.27",
+    "ts-node": "~10.9.1",
+    "tsc-alias": "^1.8.2",
+    "tsconfig-paths": "^4.1.2",
+    "typescript": "~4.8.4"
+  }
+}
