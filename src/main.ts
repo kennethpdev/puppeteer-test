@@ -3,10 +3,11 @@ import { findchrome } from './findchrome';
 
 (async () => {
   const path = findchrome();
-  console.log('chrome path:', path);
+  const executablePath = path.shift();
+  console.log('chrome path:', executablePath);
 
   const browser = await puppeteer.launch({
-    executablePath: '/bin/chromium-browser',
+    executablePath,
     headless: true,
     args: [
       '--no-sandbox',
